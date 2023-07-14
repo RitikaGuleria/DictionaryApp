@@ -5,7 +5,5 @@ import com.example.dictionaryapp.dictionaryCleanArchitecture.domain.model.WordIn
 import kotlinx.coroutines.flow.Flow
 
 interface WordInfoRepository {
-
     fun getWordInfo(word : String) : Flow<Resource<List<WordInfo>>>
-
 }

@@ -1,5 +1,6 @@
 package com.example.dictionaryapp.dictionaryCleanArchitecture.presentation
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -39,16 +40,21 @@ class WordInfoViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(500L)
+            Log.d("ritikaQuery",query)
             getWordInfo(query)
                 .onEach { result ->
                     when(result){
+
                         is Resource.Success -> {
+                            Log.d("ResultData",result?.data.toString())
                             _state.value = state.value.copy(
                                 wordInfoItems = result.data ?: emptyList(),
                                 isLoading = false
                             )
                         }
                         is Resource.Error -> {
+
+                            Log.d("ErrorData",result?.data.toString())
                             _state.value = state.value.copy(
                                 wordInfoItems = result.data ?: emptyList(),
                                 isLoading = false
@@ -59,6 +65,8 @@ class WordInfoViewModel @Inject constructor(
                         }
 
                         is Resource.Loading -> {
+
+                            Log.d("LoadingData",result?.data.toString())
                             _state.value = state.value.copy(
                                 wordInfoItems = result.data ?: emptyList(),
                                 isLoading = true

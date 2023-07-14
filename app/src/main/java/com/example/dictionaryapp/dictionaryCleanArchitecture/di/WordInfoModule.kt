@@ -40,7 +40,7 @@ object WordInfoModule {
     fun provideWordInfoDatabase(app:Application) : WordInfoDatabase{
         return Room.databaseBuilder(
             app, WordInfoDatabase::class.java,"word_db"
-        ).addTypeConverter(Converters(GsonParser(Gson()))).build()
+        ).fallbackToDestructiveMigration().addTypeConverter(Converters(GsonParser(Gson()))).build()
     }
 
     @Provides

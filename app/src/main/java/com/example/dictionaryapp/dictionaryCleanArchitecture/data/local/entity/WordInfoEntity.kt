@@ -8,17 +8,15 @@ import com.example.dictionaryapp.dictionaryCleanArchitecture.domain.model.WordIn
 @Entity
 data class WordInfoEntity(
     val word: String,
-    val photenic : String,
-    val origin : String,
-    val meanings : List<Meaning>,
-    @PrimaryKey val id : Int?=null
+    val meanings: List<Meaning>,
+    @PrimaryKey val id: Int? = null,
+    val phonetic: String
 )
 {
     fun toWordInfo() : WordInfo{
         return WordInfo(
             word = word,
-            photenic = photenic,
-            origin = origin,
+            phonetic = phonetic,
             meanings = meanings
         )
     }
