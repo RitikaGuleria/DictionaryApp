@@ -22,7 +22,7 @@ fun WordInfoItem(wordInfo: WordInfo,modifier: Modifier=Modifier)
         Spacer(modifier = Modifier.height(16.dp))
 //        Text(text = wordInfo.origin)
         wordInfo.meanings.forEach { meaning -> 
-            Text(text = meaning.partOfSpeech, fontWeight = FontWeight.Bold)
+            Text(text = meaning.partOfSpeech, fontWeight = FontWeight.Bold,fontSize=12.sp)
             meaning.definitions.forEachIndexed{ i, definition ->
                 Text(text = "${i+1}. ${definition.definition}")
                 Spacer(modifier = Modifier.height(8.dp))

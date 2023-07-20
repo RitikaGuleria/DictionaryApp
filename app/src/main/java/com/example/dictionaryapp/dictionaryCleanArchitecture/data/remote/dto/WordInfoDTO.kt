@@ -6,7 +6,7 @@ data class WordInfoDTO(
     val meanings : List<MeaningDTO>,
     val phonetic : String,
     val phonetics : List<PhoneticDTO>,
-    val word : String
+    val word : String,
 )
 {
     fun toWordInfoEntity() : WordInfoEntity{

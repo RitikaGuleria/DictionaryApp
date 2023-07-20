@@ -10,6 +10,9 @@ import com.example.dictionaryapp.dictionaryCleanArchitecture.data.repository.Wor
 import com.example.dictionaryapp.dictionaryCleanArchitecture.data.util.GsonParser
 import com.example.dictionaryapp.dictionaryCleanArchitecture.domain.repository.WordInfoRepository
 import com.example.dictionaryapp.dictionaryCleanArchitecture.domain.use_case.GetWordInfo
+import com.example.dictionaryapp.dictionaryCleanArchitecture.firebase.data.AuthRepository
+import com.example.dictionaryapp.dictionaryCleanArchitecture.firebase.data.AuthRepositoryImpl
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -52,4 +55,12 @@ object WordInfoModule {
             .build()
             .create(DictionaryAPI::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth() : FirebaseAuth=FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(impl:AuthRepositoryImpl) : AuthRepository=impl
 }

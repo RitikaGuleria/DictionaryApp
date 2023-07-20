@@ -8,10 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.dictionaryapp.core.util.Resource
 import com.example.dictionaryapp.dictionaryCleanArchitecture.domain.model.WordInfo
 import com.example.dictionaryapp.dictionaryCleanArchitecture.domain.use_case.GetWordInfo
+import com.example.dictionaryapp.dictionaryCleanArchitecture.firebase.data.AuthRepository
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WordInfoViewModel @Inject constructor(
-    private val getWordInfo: GetWordInfo
+    private val getWordInfo: GetWordInfo,private val repository: AuthRepository
 ) : ViewModel()
 {
     private val _searchQuery = mutableStateOf("")
@@ -39,7 +43,7 @@ class WordInfoViewModel @Inject constructor(
         _searchQuery.value = query
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(500L)
+            delay(700L)
             Log.d("ritikaQuery",query)
             getWordInfo(query)
                 .onEach { result ->
@@ -79,5 +83,41 @@ class WordInfoViewModel @Inject constructor(
 
     sealed class UIEvent{
         data class ShowSnackbar(val message : String) : UIEvent()
+    }
+
+
+    private val _loginFlow = MutableStateFlow<Resource<FirebaseUser>?>(null)
+    val loginFlow : StateFlow<Resource<FirebaseUser>?> = _loginFlow
+
+    fun login(email:String,password:String)=viewModelScope.launch {
+        _loginFlow.value=Resource.Loading()
+        val result=repository.logIn(email, password)
+        _loginFlow.value=result
+    }
+
+    private val _signupFlow = MutableStateFlow<Resource<FirebaseUser>?>(null)
+    val singupFlow : StateFlow<Resource<FirebaseUser>?> = _signupFlow
+
+    fun signup(name:String,email:String,password:String)=viewModelScope.launch {
+        _signupFlow.value=Resource.Loading()
+        val result=repository.SignUp(name,email,password)
+        _signupFlow.value=result
+    }
+
+    fun logOut()
+    {
+        repository.logout()
+        _loginFlow.value=null
+        _signupFlow.value=null
+    }
+
+    val currentUser : FirebaseUser?
+        get() = repository.currentUser
+
+    init {
+        if(repository.currentUser!=null)
+        {
+            _loginFlow.value=Resource.Success(repository.currentUser!!)
+        }
     }
 }
