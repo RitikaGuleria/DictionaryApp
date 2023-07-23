@@ -114,6 +114,7 @@ dependencies {
     //Firebase bom and firebase
     implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation 'com.google.android.gms:play-services-auth:20.6.0'
 
     // Lottie
     implementation("com.airbnb.android:lottie-compose:5.2.0")

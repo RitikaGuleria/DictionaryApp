@@ -9,6 +9,8 @@ import com.example.dictionaryapp.core.util.Resource
 import com.example.dictionaryapp.dictionaryCleanArchitecture.domain.model.WordInfo
 import com.example.dictionaryapp.dictionaryCleanArchitecture.domain.use_case.GetWordInfo
 import com.example.dictionaryapp.dictionaryCleanArchitecture.firebase.data.AuthRepository
+import com.example.dictionaryapp.dictionaryCleanArchitecture.presentation.GoogleLogIn.SignInResult
+import com.example.dictionaryapp.dictionaryCleanArchitecture.presentation.GoogleLogIn.SignInState
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -17,8 +19,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -119,5 +123,20 @@ class WordInfoViewModel @Inject constructor(
         {
             _loginFlow.value=Resource.Success(repository.currentUser!!)
         }
+    }
+
+    //google sign in functionality
+    private val __state = MutableStateFlow(SignInState())
+    val stateGoogleSignIn = __state.asStateFlow()
+
+    fun onSignInResult(result : SignInResult){
+        __state.update { it.copy(
+            isSignInSuccessful = result.data!=null,
+            signInError = result.errorMessage
+        ) }
+    }
+
+    fun resetData(){
+        __state.update { SignInState() }
     }
 }

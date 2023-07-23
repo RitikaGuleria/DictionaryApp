@@ -7,13 +7,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,6 +36,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,8 +59,11 @@ fun SignupScreen(authViewModel: WordInfoViewModel?, navController: NavHostContro
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(18.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally)
+        .padding(36.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally)
     {
+        Text(text = "Register a user", fontSize=26.sp, color = Color.Black, textAlign = TextAlign.Center,modifier=Modifier.padding(bottom=56.dp), style = MaterialTheme.typography.titleMedium)
         OutlinedTextField(
             value = name, onValueChange = { name = it },
             label = { Text(text = "Name") },
@@ -87,11 +95,14 @@ fun SignupScreen(authViewModel: WordInfoViewModel?, navController: NavHostContro
                 imeAction = ImeAction.Done
             ),modifier= Modifier.padding(8.dp)
         )
-        Button(onClick = { authViewModel?.signup(name,email, password) }, shape = RoundedCornerShape(10.dp),modifier= Modifier.padding(18.dp))
+        Button(onClick = { authViewModel?.signup(name,email, password) }, shape = RoundedCornerShape(10.dp),modifier= Modifier
+            .padding(18.dp)
+            .fillMaxWidth(), colors = ButtonDefaults.outlinedButtonColors( Color.LightGray))
         {
-            Text(text="Sign up")
+            Text(text="Sign up", color = Color.Black)
         }
-        Text(text = "Already have an account? Sign In", fontSize = 12.sp, color = Color.DarkGray,modifier= Modifier.clickable {
+        Divider(thickness = 1.dp, modifier = Modifier.padding(top=200.dp))
+        Text(text = "Already have an account? Sign In", fontSize = 12.sp,color = Color.DarkGray,modifier= Modifier.clickable {
             navController?.navigate(ROUTE_LOGIN)
         })
 
