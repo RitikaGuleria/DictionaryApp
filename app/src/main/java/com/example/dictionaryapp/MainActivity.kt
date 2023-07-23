@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Button
@@ -54,6 +55,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -186,7 +188,24 @@ fun DictionaryAppUI(viewModel: WordInfoViewModel,navController: NavHostControlle
             }
         }
     }
-    Scaffold() {
+    Scaffold(
+//        topBar = {
+//                      AppBar {
+//                          onNavigationIconClick
+//                      }
+//    },
+//        drawerContent = {
+//            DrawerHeader()
+//            DrawerBody(items = listOf(
+//                MenuItem(
+//                    id = "logout",
+//                    title="Log out",
+//                    icon = Icons.Default.Close
+//                )
+//            ), onItemClick ={
+//                println("Clicked on ${it.title}")
+//            })
+    ) {
         Box(modifier= Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background))
@@ -251,10 +270,14 @@ fun DictionaryAppUI(viewModel: WordInfoViewModel,navController: NavHostControlle
                 }
                 Spacer(modifier = Modifier.height(16.dp))
         }
-        Box(modifier=Modifier.wrapContentSize().padding(16.dp))
+        Box(modifier= Modifier
+            .wrapContentSize()
+            .padding(16.dp))
         {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
